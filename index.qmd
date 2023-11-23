@@ -1,6 +1,6 @@
 ---
-title: "Intro Website"
-author: "Ross Gillette"
+title: "index"
+author: "RG"
 format: html
 editor: visual
 ---

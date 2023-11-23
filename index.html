@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.335">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Ross Gillette">
+
+<title>NMON Usage</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="0_Big_Plan_files/libs/clipboard/clipboard.min.js"></script>
+<script src="0_Big_Plan_files/libs/quarto-html/quarto.js"></script>
+<script src="0_Big_Plan_files/libs/quarto-html/popper.min.js"></script>
+<script src="0_Big_Plan_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="0_Big_Plan_files/libs/quarto-html/anchor.min.js"></script>
+<link href="0_Big_Plan_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="0_Big_Plan_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="0_Big_Plan_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="0_Big_Plan_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="0_Big_Plan_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body>
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#nmon---system-monitoring" id="toc-nmon---system-monitoring" class="nav-link active" data-scroll-target="#nmon---system-monitoring">NMON - System Monitoring</a>
+  <ul class="collapse">
+  <li><a href="#installation" id="toc-installation" class="nav-link" data-scroll-target="#installation">Installation</a></li>
+  <li><a href="#usage" id="toc-usage" class="nav-link" data-scroll-target="#usage">Usage</a></li>
+  <li><a href="#nmon-recording" id="toc-nmon-recording" class="nav-link" data-scroll-target="#nmon-recording">nmon Recording</a></li>
+  <li><a href="#nmon-visualizer" id="toc-nmon-visualizer" class="nav-link" data-scroll-target="#nmon-visualizer">NMON Visualizer</a></li>
+  </ul></li>
+  <li><a href="#benchmarking-common-ngs-analysis-tools" id="toc-benchmarking-common-ngs-analysis-tools" class="nav-link" data-scroll-target="#benchmarking-common-ngs-analysis-tools">Benchmarking Common NGS Analysis Tools</a></li>
+  <li><a href="#using-sra" id="toc-using-sra" class="nav-link" data-scroll-target="#using-sra">Using SRA</a></li>
+  <li><a href="#using-aws" id="toc-using-aws" class="nav-link" data-scroll-target="#using-aws">Using AWS</a>
+  <ul class="collapse">
+  <li><a href="#using-ebs" id="toc-using-ebs" class="nav-link" data-scroll-target="#using-ebs">Using EBS</a></li>
+  <li><a href="#instance-types-and-their-usage" id="toc-instance-types-and-their-usage" class="nav-link" data-scroll-target="#instance-types-and-their-usage">Instance Types and Their Usage</a></li>
+  <li><a href="#update-your-package-index-files" id="toc-update-your-package-index-files" class="nav-link" data-scroll-target="#update-your-package-index-files">Update your package index files</a></li>
+  <li><a href="#yaml-files-for-environments" id="toc-yaml-files-for-environments" class="nav-link" data-scroll-target="#yaml-files-for-environments">YAML files for environments</a></li>
+  <li><a href="#conda-for-version-control-and-quick-installation" id="toc-conda-for-version-control-and-quick-installation" class="nav-link" data-scroll-target="#conda-for-version-control-and-quick-installation">Conda for version control and quick installation</a></li>
+  </ul></li>
+  <li><a href="#using-wls" id="toc-using-wls" class="nav-link" data-scroll-target="#using-wls">Using WLS</a>
+  <ul class="collapse">
+  <li><a href="#what-is-it" id="toc-what-is-it" class="nav-link" data-scroll-target="#what-is-it">What is it</a></li>
+  <li><a href="#how-to-install" id="toc-how-to-install" class="nav-link" data-scroll-target="#how-to-install">How to Install</a></li>
+  <li><a href="#how-to-use" id="toc-how-to-use" class="nav-link" data-scroll-target="#how-to-use">How to Use</a></li>
+  </ul></li>
+  <li><a href="#an-example-rna-seq-workflow" id="toc-an-example-rna-seq-workflow" class="nav-link" data-scroll-target="#an-example-rna-seq-workflow">An Example RNA-seq Workflow</a>
+  <ul class="collapse">
+  <li><a href="#sequence-read-archive-sra" id="toc-sequence-read-archive-sra" class="nav-link" data-scroll-target="#sequence-read-archive-sra">Sequence Read Archive (SRA)</a></li>
+  </ul></li>
+  <li><a href="#genome-indexes" id="toc-genome-indexes" class="nav-link" data-scroll-target="#genome-indexes">Genome Indexes</a></li>
+  <li><a href="#gzip-and-multithreading" id="toc-gzip-and-multithreading" class="nav-link" data-scroll-target="#gzip-and-multithreading">GZIP and multithreading</a>
+  <ul class="collapse">
+  <li><a href="#compression-metrics" id="toc-compression-metrics" class="nav-link" data-scroll-target="#compression-metrics">Compression Metrics</a></li>
+  </ul></li>
+  <li><a href="#fastqc" id="toc-fastqc" class="nav-link" data-scroll-target="#fastqc">FastQC</a></li>
+  </ul>
+</nav>
+</div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">NMON Usage</h1>
+<p class="subtitle lead">Bioinformatics for Biologists that just want to know what the hell is going on and maybe learn how to do a little bit of it too.</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Ross Gillette </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="nmon---system-monitoring" class="level2">
+<h2 class="anchored" data-anchor-id="nmon---system-monitoring">NMON - System Monitoring</h2>
+<p>Monitoring system performance can save you a lot of heart ache, time, and money. It provides insights in to what can be improved, and why your commands and code might not be optimal. For example, you might try to run <code>bowtie2 align</code> on your local system and realize it’s taking days to complete. Do you know what it’s taking so long? Is your computer just not good enough? Or did you forget to add the all-important <code>-p</code> command, which could help it finish 10, maybe even 30 times faster.</p>
+<p>There is a ton of optimization you can do to cut down on the amount of time your analysis takes, and I’m here to show you how and give you a few shortcuts. There is no cure-all solution. That’s why monitoring your system resources, and learning what the output means, is incredibly important. It is the best way to get the clues that you need to fix your code, fix your system, or accept your fate!</p>
+<p>NMON is an incredibly useful tool to monitor your system resources while you perform bioinformatics work. We are often not aware why certain commands are slow or why things take way longer than expected. Having information on hand about what is happening within your system, whether it be on a local system aor computational node like AWS, can give us information about what needs to be improved, upgraded or changed. For example, you might be using a single thread of you processor, wasting valuable time when you could easily speed up the command by 10 or 20 times. Multithreading is one of the easiest ways to gain performance out of your system, but most of the time, it isn’t done automatically. You have to tell your commands to do it.</p>
+<section id="installation" class="level3">
+<h3 class="anchored" data-anchor-id="installation">Installation</h3>
+<p>NMON is available for Linux distributions and can be install via the terminal. It can also be installed on WSL (Windows Subsystem for Linux). Installation is pretty straight forward</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> apt-get update</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> apt-get install nmon</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+apt-get update
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>You might see a recommendation to run this command with just about every instruction on how to install a package on Linux. It is simply a command that updates the package index files on your system. In english, this means the instructions for how and where to find, download, and install a package are updated so that your system is able to receive the latest stable packages.</p>
+<p>This might sound trivial, and you may have skipped this step for ages, but in some instances it is necessary. For example, when you boot up a new Ubuntu instance on AWS and try to install NMON, linux will tell you that it is not available. While this is not entirely true, your instance just doesn’t know where to find it or how to install it.</p>
+</div>
+</div>
+</section>
+<section id="usage" class="level3">
+<h3 class="anchored" data-anchor-id="usage">Usage</h3>
+<p>NMON is incredibly easy to use. Simply type <code>nmon</code> into the terminal, and the following text based interface is shown.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="NMON/NMON_Welcome.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">nmon welcome screen</figcaption><p></p>
+</figure>
+</div>
+<p>The nmon welcome screen provides instructions for its use. As, you can see, no resource information is initially provided until you input further instructions. If you want to see CPU usage information, simply press <code>c</code>, and CPU usage data will appear.</p>
+<p>Different resources can be stacked on top of each other and are displayed in the order that the keys for different resources are pressed. For example, if you were to press the keys <code>c</code>, <code>m</code> and <code>d</code>, the welcome screen would change to show the information below.</p>
+<div id="fig-NMon-Interface" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="NMON/NMON_Interface_2_Edited.png" class="img-fluid figure-img" alt="Alternate" width="548"></p>
+<p></p><figcaption class="figure-caption">Figure&nbsp;1: <strong>NMON Interface:</strong> The basic NMON interface. Here, CPU, Memory, and Disk statistics are shown. From this image you can easily diagnose that our harddisk is capping our throughput. Maybe a faster harddrive is needed?</figcaption><p></p>
+</figure>
+</div>
+<p>This will bring up information on our CPU <code>c</code>, memory <code>m</code>, and disk <code>d</code> (which is restricted by active disk <code>.</code>). The output looks a little confusing at first, especially if you’re used to the many GUI based resource monitors on Windows or MacOS. However, the information shown here is incredibly useful. We quickly get a glimpse at what is going on inside of our system.</p>
+<p>In the CPU Utilastion field, we see 5 columns with titles with rows numbered 1-16. These 16 rows correspond to each 16 threads that the CPU has available to it. If you have more or less rows, that means you have more or less threads in your CPU available to perform computations processes. To the right of the descriptive data, we see a horizontal bar chart that shows the percent utilization of each of our CPU threads. A U</p>
+<p>In the</p>
+<section id="the-case-of-fastqc-see-that-not-all-threads-are-being-used" class="level4">
+<h4 class="anchored" data-anchor-id="the-case-of-fastqc-see-that-not-all-threads-are-being-used">The case of fastqc –see that not all threads are being used</h4>
+<p>I recently ran into a situation where monitoring my system resources saved me many hours. I was performing quality control on a new sequencing data set and noticed that progress was very slow. I was completing a single-end of reads every ~1.5 hours. This didn’t make sense since I knew that the entire run should have taken ~2 hours.</p>
+<p>The following is the code I had run:</p>
+<p><code>fastqc -t 14 SeqFile.fastq.gz</code></p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">fastqc</span> <span class="at">-t</span> 14 SeqFile.fastq.gz</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Here, one would expect that the <code>-t 14</code> option above would indicate that 14 threads of my CPU would be used to read and analyze the gzipped fastq file. When I checked nmon for an idication as to why things were running so slow, this is what is:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="NMON/Fastqc_t16_notworking.png" class="img-fluid figure-img" width="511"></p>
+<p></p><figcaption class="figure-caption">fastqc running on a single thread</figcaption><p></p>
+</figure>
+</div>
+<p>It’s obvious from the resource monitor that only a single CPU thread is being utilized to run fastqc. So what gives? I looked back at <code>fastqc --help</code> for some clue where I went wrong.</p>
+<pre class="text"><code>    -t --threads    Specifies the number of files which can be processed
+                    simultaneously.  Each thread will be allocated 250MB of
+                    memory so you shouldn't run more threads than your
+                    available memory will cope with, and not more than
+                    6 threads on a 32 bit machine</code></pre>
+<p>The help file clearly specifies that the <code>-t</code> option <code>specifies the number of files</code> that are processed at the same time. Since I only gave <code>fastqc</code> a single file, in fact qued all of my individual <code>.fastq.gz</code> files, only a single thread could be used. I went back and changed my code to a simple command.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">fastqc</span> <span class="at">-t</span> 14 ./<span class="pp">*</span>fastq.gz</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Now, <code>fastqc</code> will look for any and all files with the <code>fastq.gz</code> extension, and load them, up to 14, simultaneously. Here is what the resource monitor looked like after I fixed my code.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="NMON/Fastqc_t16_working_thistime.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">fastqc working as it should</figcaption><p></p>
+</figure>
+</div>
+<p>Following this fix, the code ran and completed in about an hours time.</p>
+<p>Even the most experienced bioinformaticians can forget exactly how an option is implemented for a function. I assumed I knew it’s implementation and wasted an hour I couldn’t in good faith bill to my client, because it was wasted time.</p>
+</section>
+</section>
+<section id="nmon-recording" class="level3">
+<h3 class="anchored" data-anchor-id="nmon-recording">nmon Recording</h3>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">nmon</span> <span class="at">-s</span> 5 <span class="at">-c</span> 17280 <span class="at">-f</span> Outputfile</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="nmon-visualizer" class="level3">
+<h3 class="anchored" data-anchor-id="nmon-visualizer">NMON Visualizer</h3>
+<section id="installation-1" class="level4">
+<h4 class="anchored" data-anchor-id="installation-1">Installation</h4>
+<p>https://nmonvisualizer.github.io/nmonvisualizer/</p>
+</section>
+<section id="usage-1" class="level4">
+<h4 class="anchored" data-anchor-id="usage-1">Usage</h4>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">java</span> <span class="at">-jar</span> NMONVisualizer_2021-04-04.jar</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+</section>
+<section id="benchmarking-common-ngs-analysis-tools" class="level2">
+<h2 class="anchored" data-anchor-id="benchmarking-common-ngs-analysis-tools">Benchmarking Common NGS Analysis Tools</h2>
+</section>
+<section id="using-sra" class="level2">
+<h2 class="anchored" data-anchor-id="using-sra">Using SRA</h2>
+</section>
+<section id="using-aws" class="level2">
+<h2 class="anchored" data-anchor-id="using-aws">Using AWS</h2>
+<section id="using-ebs" class="level3">
+<h3 class="anchored" data-anchor-id="using-ebs">Using EBS</h3>
+</section>
+<section id="instance-types-and-their-usage" class="level3">
+<h3 class="anchored" data-anchor-id="instance-types-and-their-usage">Instance Types and Their Usage</h3>
+<section id="manage-compute-transfer" class="level5">
+<h5 class="anchored" data-anchor-id="manage-compute-transfer">Manage, Compute, Transfer</h5>
+</section>
+</section>
+<section id="update-your-package-index-files" class="level3">
+<h3 class="anchored" data-anchor-id="update-your-package-index-files">Update your package index files</h3>
+<p>You will not be able to install any packages if you don’t update the package index files on your new AWS instance.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> apt-get update</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="yaml-files-for-environments" class="level3">
+<h3 class="anchored" data-anchor-id="yaml-files-for-environments">YAML files for environments</h3>
+</section>
+<section id="conda-for-version-control-and-quick-installation" class="level3">
+<h3 class="anchored" data-anchor-id="conda-for-version-control-and-quick-installation">Conda for version control and quick installation</h3>
+</section>
+</section>
+<section id="using-wls" class="level2">
+<h2 class="anchored" data-anchor-id="using-wls">Using WLS</h2>
+<section id="what-is-it" class="level3">
+<h3 class="anchored" data-anchor-id="what-is-it">What is it</h3>
+<p>https://learn.microsoft.com/en-us/windows/wsl/install</p>
+<section id="wsl-vs.-wsl2" class="level4">
+<h4 class="anchored" data-anchor-id="wsl-vs.-wsl2">WSL vs.&nbsp;WSL2</h4>
+</section>
+</section>
+<section id="how-to-install" class="level3">
+<h3 class="anchored" data-anchor-id="how-to-install">How to Install</h3>
+</section>
+<section id="how-to-use" class="level3">
+<h3 class="anchored" data-anchor-id="how-to-use">How to Use</h3>
+</section>
+</section>
+<section id="an-example-rna-seq-workflow" class="level2">
+<h2 class="anchored" data-anchor-id="an-example-rna-seq-workflow">An Example RNA-seq Workflow</h2>
+<section id="sequence-read-archive-sra" class="level3">
+<h3 class="anchored" data-anchor-id="sequence-read-archive-sra">Sequence Read Archive (SRA)</h3>
+<p>The Sequence Read Archive is a database managed by NCBI that contains public and regulated (permission to use necessary) sequencing data of just about every type available (RNAseq, ATACseq, scRNAseq, etc.). SRA is an excellent resource for both acquiring raw sequencing data for learning purposes and to perform real analyses on curated data.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="SRA/SRA_Welcome.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">SRA Welcome Screen</figcaption><p></p>
+</figure>
+</div>
+<section id="sra-run-selector" class="level4">
+<h4 class="anchored" data-anchor-id="sra-run-selector">SRA Run Selector</h4>
+<p>The SRA run selector is a tool</p>
+<p><a href="https://0-www-ncbi-nlm-nih-gov.brum.beds.ac.uk/Traces/study/">SRA Run Selector</a></p>
+</section>
+<section id="prefetch" class="level4">
+<h4 class="anchored" data-anchor-id="prefetch">prefetch</h4>
+</section>
+<section id="fasterq-dump" class="level4">
+<h4 class="anchored" data-anchor-id="fasterq-dump">fasterq-dump</h4>
+</section>
+<section id="installation-and-setup" class="level4">
+<h4 class="anchored" data-anchor-id="installation-and-setup">Installation and Setup</h4>
+<p>Local</p>
+<p>AWS</p>
+</section>
+</section>
+</section>
+<section id="genome-indexes" class="level2">
+<h2 class="anchored" data-anchor-id="genome-indexes">Genome Indexes</h2>
+</section>
+<section id="gzip-and-multithreading" class="level2">
+<h2 class="anchored" data-anchor-id="gzip-and-multithreading">GZIP and multithreading</h2>
+<p>GZIP only has the ability to use a single thread. However, there are options to use multithreading.</p>
+<p>Pigz is already built in to some algorithms like <code>time_galore</code></p>
+<p>Disk space, transfering beteen drives, moving across servers or web</p>
+<p>Most algorithms will decompress and recompress when finished</p>
+<p>Is there any point at which leaving the files uncompressed becomes worth it, eg, it’s faster</p>
+<section id="compression-metrics" class="level3">
+<h3 class="anchored" data-anchor-id="compression-metrics">Compression Metrics</h3>
+<section id="different-levels-of-compression" class="level4">
+<h4 class="anchored" data-anchor-id="different-levels-of-compression">Different Levels of Compression</h4>
+</section>
+</section>
+</section>
+<section id="fastqc" class="level2">
+<h2 class="anchored" data-anchor-id="fastqc">FastQC</h2>
+<p>multithread</p>
+<p>`/usr/bin/time --format=‘%C took %e seconds’ fastqc -o ./3_FastQC/ -t 14 ./1_FastQ/SRR19681071_1.fastq.gz`</p>
+<p>does not work</p>
+<p><code>/usr/bin/time --format='%C took %e seconds' fastqc -o ./3_FastQC/ -t 14 ./1_FastQ/*.fastq.gz</code></p>
+<p>works, hyperthreading here depends on multiple files at once</p>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
